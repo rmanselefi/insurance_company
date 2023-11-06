@@ -7,6 +7,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IProposalService, ProposalService>();
+builder.Services.AddScoped<IClientCompanyService, ClientCompanyService>();
+builder.Services.AddScoped<IInsurancePlanService, InsurancePlanService>();
+
+services.AddSingleton<IProposalRepository, InMemoryProposalRepository>();
+services.AddSingleton<ICompanyRepository, InMemoryCompanyRepository>();
 
 
 var app = builder.Build();
