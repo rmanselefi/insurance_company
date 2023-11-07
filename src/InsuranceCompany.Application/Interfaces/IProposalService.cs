@@ -1,10 +1,15 @@
+
+using InsuranceCompany.Domain.Entities;
+
+
 namespace InsuranceCompany.Application.Interfaces
 {
     public interface IProposalService
     {
-        Proposal CreateProposal(ClientCompany company);
-        void AddInsuredGroupToProposal(Proposal proposal, int memberCount, InsurancePlanType planType);
+        Proposal CreateProposal(Guid clientCompany, List<InsuredGroup> insuredGroups);
+        void AddInsuredGroupToProposal(Guid proposalId, InsuredGroup insuredGroup);
         decimal GetTotalPremium(Proposal proposal);
-        void ApplyDiscount(Proposal proposal, int xMembers, InsurancePlanType planType);
+        void ApplyDiscount(Guid proposalId, decimal discountPercentage);
+        Proposal GetProposal(Guid id);
     }
 }

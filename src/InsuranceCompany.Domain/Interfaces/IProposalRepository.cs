@@ -1,3 +1,9 @@
+
+using InsuranceCompany.Domain.Entities;
+using System;
+using System.Collections.Generic;
+
+
 namespace InsuranceCompany.Domain.Interfaces
 {
     public interface IProposalRepository

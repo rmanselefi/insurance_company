@@ -1,8 +1,9 @@
 
+namespace InsuranceCompany.Infrastructure.Persistence;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using InsuranceCompany.Application.Interfaces;
 using InsuranceCompany.Domain.Entities;
 using InsuranceCompany.Domain.Interfaces;
 

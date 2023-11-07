@@ -1,3 +1,15 @@
+
+using InsuranceCompany.Infrastructure.Repositories;
+using InsuranceCompany.Application.Services;
+using InsuranceCompany.Domain.Interfaces;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
+using InsuranceCompany.Infrastructure.Persistence;
+using InsuranceCompany.Application.Interfaces;
+
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,11 +19,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IProposalService, ProposalService>();
-builder.Services.AddScoped<IClientCompanyService, ClientCompanyService>();
-builder.Services.AddScoped<IInsurancePlanService, InsurancePlanService>();
+builder.Services.AddScoped<IPlanService, PlanService>();
 
-services.AddSingleton<IProposalRepository, InMemoryProposalRepository>();
-services.AddSingleton<ICompanyRepository, InMemoryCompanyRepository>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddSingleton<IPlanRepository, InMemoryPlanRepository>();
+
+
+builder.Services.AddSingleton<IProposalRepository, InMemoryProposalRepository>();
+builder.Services.AddSingleton<ICompanyRepository, InMemoryCompanyRepository>();
 
 
 var app = builder.Build();

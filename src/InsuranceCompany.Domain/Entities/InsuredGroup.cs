@@ -1,3 +1,12 @@
+namespace InsuranceCompany.Domain.Entities;
+
+using System.Collections.Generic;
+using InsuranceCompany.Domain.ValueObjects;
+
+
+using System;
+
+
 public class InsuredGroup
 {
     public Guid Id { get; private set; }
@@ -16,16 +25,18 @@ public class InsuredGroup
         // Assuming no discounts or additional logic for now
         return NumberOfMembers * Plan.Price;
     }
-}
 
-public class Plan
-{
-    public string Name { get; private set; }
-    public decimal Price { get; private set; }
+    public decimal PremiumPerMember { get; set; }
 
-    public Plan(string name, decimal price)
+    public decimal TotalGroupPremium => NumberOfMembers * PremiumPerMember;
+
+    public decimal Premium { get; private set; }
+
+
+    public void ApplyDiscount(decimal discountAmount)
     {
-        Name = name;
-        Price = price;
+       
+        Premium -= Premium * (discountAmount / 100m);
     }
 }
+

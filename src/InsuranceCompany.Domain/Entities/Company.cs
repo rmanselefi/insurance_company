@@ -1,6 +1,14 @@
+namespace InsuranceCompany.Domain.Entities;
+
 public class Company
 {
-    public Guid Id { get; private set; }
-    public string Name { get; private set; }
-    // Other properties and methods relevant to a client company.
+    public Guid Id { get; set; }
+        public string Name { get; set; } // Providing a public setter
+
+        
+        public Company(string name)
+        {
+            Id = Guid.NewGuid();
+            Name = name;
+        }
 }

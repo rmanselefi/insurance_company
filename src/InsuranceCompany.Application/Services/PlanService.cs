@@ -1,25 +1,37 @@
 using InsuranceCompany.Application.Interfaces;
 using InsuranceCompany.Domain.Entities;
+using InsuranceCompany.Domain.ValueObjects;
+
+using System;
+using System.Collections.Generic;
+using InsuranceCompany.Domain.Interfaces;
 
 namespace InsuranceCompany.Application.Services
 {
     public class PlanService : IPlanService
     {
-        // Constructor with dependencies
+        private readonly IPlanRepository _planRepository;
+
+        public PlanService(IPlanRepository planRepository)
+        {
+            _planRepository = planRepository;
+        }
 
         public Plan CreatePlan(PlanType type, decimal price)
         {
-            // Implement the creation logic
-        }
-
-        public Plan GetPlan(PlanType type)
-        {
-            // Implement retrieval logic
+            var newPlan = new Plan(type, price);
+            _planRepository.Add(newPlan);
+            return newPlan;
         }
 
         public IEnumerable<Plan> GetAllPlans()
         {
-            // Implement retrieval of all plans logic
+            return _planRepository.GetAll();
+        }
+        
+        public Plan GetPlanById(Guid id)
+        {
+            return _planRepository.GetPlanById(id);
         }
 
         // Additional method implementations

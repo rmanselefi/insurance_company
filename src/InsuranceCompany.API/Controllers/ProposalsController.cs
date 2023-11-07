@@ -1,4 +1,13 @@
 using InsuranceCompany.Application.Interfaces;
+using InsuranceCompany.Domain.Entities;
+using InsuranceCompany.Domain.ValueObjects;
+using InsuranceCompany.Application.Dtos;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 
 namespace InsuranceCompany.API.Controllers
 {
@@ -13,19 +22,21 @@ namespace InsuranceCompany.API.Controllers
             _proposalService = proposalService;
         }
 
-        // Define your API endpoints here using _proposalService
 
         // POST: /proposals
         [HttpPost]
-        public ActionResult<Proposal> CreateProposal(ClientCompany company)
+        public ActionResult<Proposal> CreateProposal([FromBody] CreateProposalDto createProposalDto)
         {
-            var proposal = _proposalService.CreateProposal(company);
+            var insuredGroups = createProposalDto.InsuredGroups;
+
+            var proposal = _proposalService.CreateProposal(createProposalDto.CompanyId, insuredGroups);
+            
             return CreatedAtAction(nameof(GetProposal), new { id = proposal.Id }, proposal);
         }
 
-        // GET: /proposals/{id}
+        // GET:id /proposal
         [HttpGet("{id}")]
-        public ActionResult<Proposal> GetProposal(int id)
+        public ActionResult<Proposal> GetProposal(Guid id)
         {
             var proposal = _proposalService.GetProposal(id);
 
@@ -37,18 +48,8 @@ namespace InsuranceCompany.API.Controllers
             return proposal;
         }
 
-        // PUT: /proposals/{id}
-        [HttpPut("{id}")]
-        public IActionResult UpdateProposal(int id, Proposal proposal)
-        {
-            if (id != proposal.Id)
-            {
-                return BadRequest();
-            }
+      
 
-            _proposalService.UpdateProposal(proposal);
-
-            return NoContent();
-        }
+       
     }
 }

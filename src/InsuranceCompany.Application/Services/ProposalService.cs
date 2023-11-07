@@ -1,11 +1,13 @@
 using InsuranceCompany.Domain.Entities;
 using InsuranceCompany.Domain.Interfaces;
+using InsuranceCompany.Application.Interfaces;
 using System;
 using System.Collections.Generic;
 
+
 namespace InsuranceCompany.Application.Services
 {
-    public class ProposalService
+    public class ProposalService: IProposalService
     {
         private readonly IProposalRepository _proposalRepository;
 
@@ -14,12 +16,12 @@ namespace InsuranceCompany.Application.Services
             _proposalRepository = proposalRepository;
         }
 
-       public Proposal CreateProposal(Company clientCompany, List<InsuranceGroup> insuredGroups)
+       public Proposal CreateProposal(Guid clientCompany, List<InsuredGroup> insuredGroups)
         {
         // You might want to add some validation to check if the company and groups are valid
         var proposal = new Proposal
         {
-            ClientCompany = clientCompany,
+            CompanyId = clientCompany,
             InsuredGroups = insuredGroups,
             TotalPremium = insuredGroups.Sum(group => CalculatePremiumForGroup(group))
         };
@@ -29,25 +31,64 @@ namespace InsuranceCompany.Application.Services
         return proposal;
         }
 
+        public Proposal GetProposal(Guid proposalId){
+            return _proposalRepository.GetById(proposalId);
+        }
 
-        public decimal CalculatePremiumForGroup(InsuranceGroup group)
-{
-    int discountThreshold = 10; // For every 10 members, one gets a free insurance
-    int discounts = group.Members.Count / discountThreshold;
-    int payableMembers = group.Members.Count - discounts;
-    return payableMembers * group.Plan.Price;
-}
+        public decimal CalculatePremiumForGroup(InsuredGroup group)
+        {
+            int discountThreshold = 10; // For every 10 members, one gets a free insurance
+            int discounts = group.NumberOfMembers / discountThreshold;
+            int payableMembers = group.NumberOfMembers - discounts;
+            return payableMembers * group.Plan.Price;
+        }
 
 
-public decimal CalculateTotalPremium(Guid proposalId)
-{
-    var proposal = _proposalRepository.GetById(proposalId);
-    if (proposal == null)
-        throw new ArgumentException("Proposal not found.");
+        public decimal CalculateTotalPremium(Guid proposalId)
+        {
+            var proposal = _proposalRepository.GetById(proposalId);
+            if (proposal == null)
+                throw new ArgumentException("Proposal not found.");
 
-    return proposal.InsuredGroups.Sum(group => CalculatePremiumForGroup(group));
-}
+            return proposal.InsuredGroups.Sum(group => CalculatePremiumForGroup(group));
+        }
 
-        // Add other methods as required by your user stories
+         public void AddInsuredGroupToProposal(Guid proposalId, InsuredGroup insuredGroup)
+        {
+            var proposal = _proposalRepository.GetById(proposalId);
+            if (proposal == null)
+                throw new InvalidOperationException("Proposal not found.");
+
+            proposal.InsuredGroups.Add(insuredGroup);
+            // Assuming there is a method to recalculate the total premium after adding a group
+            proposal.CalculateTotalPremium();
+        }
+
+        public void ApplyDiscount(Guid proposalId, decimal discountPercentage)
+        {
+            var proposal = _proposalRepository.GetById(proposalId);
+            if (proposal == null)
+                throw new InvalidOperationException("Proposal not found.");
+
+            foreach (var group in proposal.InsuredGroups)
+            {
+                var discountAmount = group.TotalGroupPremium * (discountPercentage / 100m);
+                group.ApplyDiscount(discountAmount);
+            }
+            // Assuming there is a method to recalculate the total premium after applying discounts
+            proposal.CalculateTotalPremium();
+        }
+        public decimal GetTotalPremium(Proposal proposal)
+    {
+        // Ensure the proposal is valid
+        if (proposal == null)
+        {
+            throw new ArgumentNullException(nameof(proposal));
+        }
+
+        return proposal.InsuredGroups.Sum(group => group.Premium);
+        
+    }
+
     }
 }
