@@ -10,6 +10,5 @@ namespace InsuranceCompany.Application.Interfaces
         Plan CreatePlan(PlanType type, decimal price);
         IEnumerable<Plan> GetAllPlans();
         Plan GetPlanById(Guid id);
-        // Additional methods for plan management
     }
 }

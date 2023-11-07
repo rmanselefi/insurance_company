@@ -37,7 +37,7 @@ namespace InsuranceCompany.Application.Services
 
         public decimal CalculatePremiumForGroup(InsuredGroup group)
         {
-            int discountThreshold = 10; // For every 10 members, one gets a free insurance
+            int discountThreshold = 10; 
             int discounts = group.NumberOfMembers / discountThreshold;
             int payableMembers = group.NumberOfMembers - discounts;
             return payableMembers * group.Plan.Price;
@@ -60,7 +60,6 @@ namespace InsuranceCompany.Application.Services
                 throw new InvalidOperationException("Proposal not found.");
 
             proposal.InsuredGroups.Add(insuredGroup);
-            // Assuming there is a method to recalculate the total premium after adding a group
             proposal.CalculateTotalPremium();
         }
 
@@ -75,7 +74,6 @@ namespace InsuranceCompany.Application.Services
                 var discountAmount = group.TotalGroupPremium * (discountPercentage / 100m);
                 group.ApplyDiscount(discountAmount);
             }
-            // Assuming there is a method to recalculate the total premium after applying discounts
             proposal.CalculateTotalPremium();
         }
         public decimal GetTotalPremium(Proposal proposal)

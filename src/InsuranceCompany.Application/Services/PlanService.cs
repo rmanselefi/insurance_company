@@ -34,6 +34,5 @@ namespace InsuranceCompany.Application.Services
             return _planRepository.GetPlanById(id);
         }
 
-        // Additional method implementations
     }
 }

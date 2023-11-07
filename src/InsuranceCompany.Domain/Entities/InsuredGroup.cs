@@ -22,7 +22,6 @@ public class InsuredGroup
     
     public decimal CalculateGroupPremium()
     {
-        // Assuming no discounts or additional logic for now
         return NumberOfMembers * Plan.Price;
     }
 

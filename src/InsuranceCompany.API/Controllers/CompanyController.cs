@@ -20,9 +20,6 @@ public class CompaniesController : ControllerBase
     {
         _companyService = companyService;
     }
-
-    // API endpoints using _companyService
-
     // POST: /companies
     [HttpPost]
     public ActionResult<Company> CreateCompany(string name)

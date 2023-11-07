@@ -10,10 +10,9 @@ public class Plan
         public PlanType Type { get; private set; }
         public decimal Price { get; private set; }
 
-        // Constructor that takes PlanType and price
         public Plan(PlanType type, decimal price)
         {
-            Id = Guid.NewGuid(); // Assign a new unique identifier
+            Id = Guid.NewGuid();
             Type = type;
             Price = price;
         }

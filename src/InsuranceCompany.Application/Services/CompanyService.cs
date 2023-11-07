@@ -33,6 +33,5 @@ namespace InsuranceCompany.Application.Services
         {
             return _companyRepository.GetAll();
         }
-        // Add other methods as required
     }
 }

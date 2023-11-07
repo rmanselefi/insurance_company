@@ -12,6 +12,5 @@ namespace InsuranceCompany.Application.Interfaces
         Company CreateCompany(string name);
         Company GetCompanyById(Guid id);
         IEnumerable<Company> GetAllCompanies();
-        // Additional methods for updating, deleting, etc.
     }
 }
