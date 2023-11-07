@@ -82,11 +82,9 @@ StyleCopReport.xml
 *.vspscc
 *.vssscc
 *.user
-*.csproj.user
 *.vbproj.user
 *.suo
 *.cache
-*.csproj
 *.vbproj
 *.snk
 *.vsix
