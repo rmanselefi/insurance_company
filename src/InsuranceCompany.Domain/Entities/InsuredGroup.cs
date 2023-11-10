@@ -19,7 +19,7 @@ public class InsuredGroup
         NumberOfMembers = numberOfMembers;
         Plan = plan;
     }
-    
+
     public decimal CalculateGroupPremium()
     {
         return NumberOfMembers * Plan.Price;
@@ -34,7 +34,7 @@ public class InsuredGroup
 
     public void ApplyDiscount(decimal discountAmount)
     {
-       
+
         Premium -= Premium * (discountAmount / 100m);
     }
 }

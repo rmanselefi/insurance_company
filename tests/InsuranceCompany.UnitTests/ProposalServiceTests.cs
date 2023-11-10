@@ -25,7 +25,7 @@ public class ProposalServiceTests
     {
         // Arrange
         var company = _companyRepository.Add(new Company("Test Company"));
-         var proposalClass = new Proposal
+        var proposalClass = new Proposal
         {
             CompanyId = company.Id,
         };
@@ -44,16 +44,16 @@ public class ProposalServiceTests
     public void CalculateTotalPremium_ShouldReturnCorrectAmount()
     {
         // Arrange
-        var basePlan = new Plan(PlanType.Base, 500m); 
+        var basePlan = new Plan(PlanType.Base, 500m);
         var company = _companyRepository.Add(new Company("Test Company"));
         var proposalClass = new Proposal
         {
             CompanyId = company.Id,
         };
         var proposal = _proposalRepository.Add(proposalClass);
-    
+
         _proposalService.AddInsuredGroupToProposal(proposal.Id, new InsuredGroup(150, basePlan));
-        decimal expectedTotal = 67500m; 
+        decimal expectedTotal = 67500m;
 
         // Act
         var totalPremium = _proposalService.CalculateTotalPremium(proposal.Id);

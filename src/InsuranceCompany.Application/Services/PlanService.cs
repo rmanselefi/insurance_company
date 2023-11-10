@@ -28,7 +28,7 @@ namespace InsuranceCompany.Application.Services
         {
             return _planRepository.GetAll();
         }
-        
+
         public Plan GetPlanById(Guid id)
         {
             return _planRepository.GetPlanById(id);

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace InsuranceCompany.Application.Services
 {
-    public class ProposalService: IProposalService
+    public class ProposalService : IProposalService
     {
         private readonly IProposalRepository _proposalRepository;
 
@@ -16,28 +16,29 @@ namespace InsuranceCompany.Application.Services
             _proposalRepository = proposalRepository;
         }
 
-       public Proposal CreateProposal(Guid clientCompany, List<InsuredGroup> insuredGroups)
+        public Proposal CreateProposal(Guid clientCompany, List<InsuredGroup> insuredGroups)
         {
-        // You might want to add some validation to check if the company and groups are valid
-        var proposal = new Proposal
-        {
-            CompanyId = clientCompany,
-            InsuredGroups = insuredGroups,
-            TotalPremium = insuredGroups.Sum(group => CalculatePremiumForGroup(group))
-        };
+            // You might want to add some validation to check if the company and groups are valid
+            var proposal = new Proposal
+            {
+                CompanyId = clientCompany,
+                InsuredGroups = insuredGroups,
+                TotalPremium = insuredGroups.Sum(group => CalculatePremiumForGroup(group))
+            };
 
-        _proposalRepository.Add(proposal);
+            _proposalRepository.Add(proposal);
 
-        return proposal;
+            return proposal;
         }
 
-        public Proposal GetProposal(Guid proposalId){
+        public Proposal GetProposal(Guid proposalId)
+        {
             return _proposalRepository.GetById(proposalId);
         }
 
         public decimal CalculatePremiumForGroup(InsuredGroup group)
         {
-            int discountThreshold = 10; 
+            int discountThreshold = 10;
             int discounts = group.NumberOfMembers / discountThreshold;
             int payableMembers = group.NumberOfMembers - discounts;
             return payableMembers * group.Plan.Price;
@@ -53,7 +54,7 @@ namespace InsuranceCompany.Application.Services
             return proposal.InsuredGroups.Sum(group => CalculatePremiumForGroup(group));
         }
 
-         public void AddInsuredGroupToProposal(Guid proposalId, InsuredGroup insuredGroup)
+        public void AddInsuredGroupToProposal(Guid proposalId, InsuredGroup insuredGroup)
         {
             var proposal = _proposalRepository.GetById(proposalId);
             if (proposal == null)
@@ -77,16 +78,16 @@ namespace InsuranceCompany.Application.Services
             proposal.CalculateTotalPremium();
         }
         public decimal GetTotalPremium(Proposal proposal)
-    {
-        // Ensure the proposal is valid
-        if (proposal == null)
         {
-            throw new ArgumentNullException(nameof(proposal));
-        }
+            // Ensure the proposal is valid
+            if (proposal == null)
+            {
+                throw new ArgumentNullException(nameof(proposal));
+            }
 
-        return proposal.InsuredGroups.Sum(group => group.Premium);
-        
-    }
+            return proposal.InsuredGroups.Sum(group => group.Premium);
+
+        }
 
     }
 }

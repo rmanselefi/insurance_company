@@ -23,21 +23,21 @@ namespace InsuranceCompany.UnitTests
         [Fact]
         public void CreateProposal_Should_CreateNewProposal()
         {
-           // Arrange
-    var companyId = Guid.NewGuid();
-    var plan = new Plan(PlanType.Base, 500m); // Example plan, replace with actual creation logic
-    var insuredGroup = new InsuredGroup(100, plan); // Assuming 100 members for this group
+            // Arrange
+            var companyId = Guid.NewGuid();
+            var plan = new Plan(PlanType.Base, 500m); // Example plan, replace with actual creation logic
+            var insuredGroup = new InsuredGroup(100, plan); // Assuming 100 members for this group
 
-    var insuredGroups = new List<InsuredGroup> { insuredGroup };
+            var insuredGroups = new List<InsuredGroup> { insuredGroup };
 
-    // Act
-    var proposal = _proposalService.CreateProposal(companyId, insuredGroups);
+            // Act
+            var proposal = _proposalService.CreateProposal(companyId, insuredGroups);
 
-    // Assert
-    Assert.NotNull(proposal);
-    Assert.Equal(companyId, proposal.CompanyId);
-    Assert.Single(proposal.InsuredGroups);
-    Assert.Equal(100, proposal.InsuredGroups.First().NumberOfMembers);
+            // Assert
+            Assert.NotNull(proposal);
+            Assert.Equal(companyId, proposal.CompanyId);
+            Assert.Single(proposal.InsuredGroups);
+            Assert.Equal(100, proposal.InsuredGroups.First().NumberOfMembers);
         }
     }
 }

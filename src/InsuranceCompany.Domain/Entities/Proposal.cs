@@ -6,8 +6,8 @@ namespace InsuranceCompany.Domain.Entities;
 public class Proposal
 {
     public Guid Id { get; set; }
-    public Guid CompanyId { get;  set; }
-    public List<InsuredGroup> InsuredGroups { get;  set; } = new List<InsuredGroup>();
+    public Guid CompanyId { get; set; }
+    public List<InsuredGroup> InsuredGroups { get; set; } = new List<InsuredGroup>();
 
     public decimal TotalPremium
     {
@@ -36,7 +36,7 @@ public class Proposal
     {
         InsuredGroups.Add(group);
     }
-    
+
     public decimal CalculateTotalPremium()
     {
         return InsuredGroups.Sum(g => g.CalculateGroupPremium());

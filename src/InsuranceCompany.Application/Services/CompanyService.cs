@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace InsuranceCompany.Application.Services
 {
-    public class CompanyService: ICompanyService
+    public class CompanyService : ICompanyService
     {
         private readonly ICompanyRepository _companyRepository;
 
@@ -15,7 +15,7 @@ namespace InsuranceCompany.Application.Services
             _companyRepository = companyRepository;
         }
 
-       public Company CreateCompany(string name)
+        public Company CreateCompany(string name)
         {
             var company = new Company(name);
 

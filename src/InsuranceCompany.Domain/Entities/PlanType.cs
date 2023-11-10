@@ -4,6 +4,5 @@ namespace InsuranceCompany.Domain.Entities
     {
         Base,
         Premium
-        
     }
 }

@@ -30,7 +30,7 @@ namespace InsuranceCompany.API.Controllers
             var insuredGroups = createProposalDto.InsuredGroups;
 
             var proposal = _proposalService.CreateProposal(createProposalDto.CompanyId, insuredGroups);
-            
+
             return CreatedAtAction(nameof(GetProposal), new { id = proposal.Id }, proposal);
         }
 
@@ -48,8 +48,8 @@ namespace InsuranceCompany.API.Controllers
             return proposal;
         }
 
-      
 
-       
+
+
     }
 }

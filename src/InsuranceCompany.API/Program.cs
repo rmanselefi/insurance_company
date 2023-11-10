@@ -2,9 +2,6 @@
 using InsuranceCompany.Infrastructure.Repositories;
 using InsuranceCompany.Application.Services;
 using InsuranceCompany.Domain.Interfaces;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
 using InsuranceCompany.Infrastructure.Persistence;
 using InsuranceCompany.Application.Interfaces;
 using InsuranceCompany.API.Filters;
