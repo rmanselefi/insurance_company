@@ -29,7 +29,7 @@ public class InsuredGroup
 
     public decimal TotalGroupPremium => NumberOfMembers * PremiumPerMember;
 
-    public decimal Premium { get; private set; }
+    public decimal Premium { get; set; }
 
 
     public void ApplyDiscount(decimal discountAmount)

@@ -12,12 +12,13 @@ namespace InsuranceCompany.UnitTests
     {
         private readonly ProposalService _proposalService;
         private readonly IProposalRepository _proposalRepository;
-
+        private readonly IDiscountRepository _discountRepository;
         public ProposalTests()
         {
             // Initialize the in-memory repository or mock here
             _proposalRepository = new InMemoryProposalRepository();
-            _proposalService = new ProposalService(_proposalRepository);
+            _discountRepository = new InMemoryDiscountRuleRepository();
+            _proposalService = new ProposalService(_proposalRepository, _discountRepository);
         }
 
         [Fact]

@@ -3,6 +3,7 @@ using InsuranceCompany.Domain.Interfaces;
 using InsuranceCompany.Application.Interfaces;
 using System;
 using System.Collections.Generic;
+using InsuranceCompany.Domain.ValueObjects;
 
 
 namespace InsuranceCompany.Application.Services
@@ -10,10 +11,12 @@ namespace InsuranceCompany.Application.Services
     public class ProposalService : IProposalService
     {
         private readonly IProposalRepository _proposalRepository;
+        private readonly IDiscountRepository _discountRepositroy;
 
-        public ProposalService(IProposalRepository proposalRepository)
+        public ProposalService(IProposalRepository proposalRepository, IDiscountRepository discountRepository)
         {
             _proposalRepository = proposalRepository;
+            _discountRepositroy = discountRepository;
         }
 
         public Proposal CreateProposal(Guid clientCompany, List<InsuredGroup> insuredGroups)
@@ -54,14 +57,27 @@ namespace InsuranceCompany.Application.Services
             return proposal.InsuredGroups.Sum(group => CalculatePremiumForGroup(group));
         }
 
-        public void AddInsuredGroupToProposal(Guid proposalId, InsuredGroup insuredGroup)
+        public void AddInsuredGroupToProposal(Guid proposalId, Plan plan, int numberOfMembers)
         {
             var proposal = _proposalRepository.GetById(proposalId);
             if (proposal == null)
                 throw new InvalidOperationException("Proposal not found.");
 
+            var discount = _discountRepositroy.GetDiscountByPlan(plan);
+            var insuredGroup = new InsuredGroup(numberOfMembers, plan);
+            var discountPercentage = discount.Percentage;
+            var selectedPlan = discount.EligiblePlanType;
             proposal.InsuredGroups.Add(insuredGroup);
-            proposal.CalculateTotalPremium();
+            var proposalInsuredGroups = proposal.InsuredGroups;
+            
+            for (int i = 0; i < proposalInsuredGroups.Count; i++)
+            {
+                var item = proposalInsuredGroups[i];
+                if (item.NumberOfMembers > 50 && item.Plan.Type == selectedPlan)
+                {
+                    proposal.TotalPremium = numberOfMembers * plan.Price * discountPercentage / 100;
+                }
+            }
         }
 
         public void ApplyDiscount(Guid proposalId, decimal discountPercentage)
@@ -75,7 +91,6 @@ namespace InsuranceCompany.Application.Services
                 var discountAmount = group.TotalGroupPremium * (discountPercentage / 100m);
                 group.ApplyDiscount(discountAmount);
             }
-            proposal.CalculateTotalPremium();
         }
         public decimal GetTotalPremium(Proposal proposal)
         {
